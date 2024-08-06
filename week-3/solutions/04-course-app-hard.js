@@ -64,7 +64,6 @@ app.post('/admin/signup', (req, res) => {
       const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
       res.json({ message: 'Admin created successfully', token });
     }
-
   }
   Admin.findOne({ username }).then(callback);
 });
@@ -130,6 +129,10 @@ app.get('/users/courses', authenticateJwt, async (req, res) => {
   res.json({ courses });
 });
 
+user={
+  {username,password}
+}
+
 app.post('/users/courses/:courseId', authenticateJwt, async (req, res) => {
   const course = await Course.findById(req.params.courseId);
   console.log(course);
@@ -138,7 +141,7 @@ app.post('/users/courses/:courseId', authenticateJwt, async (req, res) => {
     if (user) {
       user.purchasedCourses.push(course);
       await user.save();
-      res.json({ message: 'Course purchased successfully' });
+      res.json({ message: 'Course purchased successfully'});
     } else {
       res.status(403).json({ message: 'User not found' });
     }

@@ -41,6 +41,7 @@ const authenticateJwt = (req, res, next) => {
 
 // Admin routes
 app.post('/admin/signup', (req, res) => {
+  console.log("admin signup1");
   const { username, password } = req.body;
   const admin = ADMINS.find(a => a.username === username);
   console.log("admin signup");
@@ -56,8 +57,11 @@ app.post('/admin/signup', (req, res) => {
 });
 
 app.post('/admin/login', (req, res) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.headers; 
+  console.log(req.headers); 
+  console.log(ADMINS); 
   const admin = ADMINS.find(a => a.username === username && a.password === password);
+  console.log(admin); 
   if (admin) {
     const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
     res.json({ message: 'Logged in successfully', token });
@@ -106,7 +110,7 @@ app.post('/users/signup', (req, res) => {
 
 app.post('/users/login', (req, res) => {
   const { username, password } = req.headers;
-  const user = USERS.find(u => u.username === username && u.password === password);
+  const user = USERS.find(u => u.username === username && u.password === password); 
   if (user) {
     const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
     res.json({ message: 'Logged in successfully', token });
